@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 class Poll(models.Model):
     poll_name = models.TextField()
     poll_description = models.TextField()
-    owner = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    owner = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='poll')
 
 
 class UsersAnswers(models.Model):
