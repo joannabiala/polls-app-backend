@@ -5,10 +5,12 @@ from poll.pollApp.models import Poll, UsersAnswers
 
 
 class RegisteredUserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'list']
-        extra_kwargs = {'password': {'required': True, 'write_only': True}}
+        fields = ['id', 'username', 'email', 'password']
+        extra_kwargs = {'password': {'required': True, 'read_only': True}}
         owner = serializers.ReadOnlyField(source='owner.username')
 
     def create(self, validated_data):
@@ -17,11 +19,13 @@ class RegisteredUserSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    email = serializers.EmailField(required=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'password']
+        fields = ['id', 'username', 'password', 'email']
         extra_kwargs = {'password': {'required': True, 'write_only': True}}
-        owner = serializers.ReadOnlyField(source='owner.username')
+        owner = serializers.ReadOnlyField(source='owner.email')
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)

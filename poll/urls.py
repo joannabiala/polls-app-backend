@@ -7,4 +7,6 @@ from rest_framework.authtoken import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(urls)),
-    path('auth/', views.obtain_auth_token)]
+    path('auth/', views.obtain_auth_token),
+    path('oauth/', include('drf_social_oauth2.urls', namespace='drf')),
+]
