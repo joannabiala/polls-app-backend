@@ -40,3 +40,8 @@ class AnswerViewSet(viewsets.ModelViewSet):
 class UsersAnswersViewSet(viewsets.ModelViewSet):
     queryset = UsersAnswers.objects.all()
     serializer_class = UsersAnswersSerializer
+
+
+class RegistrationViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer

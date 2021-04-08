@@ -9,6 +9,8 @@ router.register(r'poll', views.PollViewSet, basename="tasks")
 router.register(r'question', views.QuestionViewSet, basename="list")
 router.register(r'answer', views.AnswerViewSet, basename='registration')
 router.register(r'usersanswers', views.UsersAnswersViewSet, basename='usersanswers')
+router.register(r'registration', views.RegistrationViewSet, basename='registration')
+
 
 urlpatterns = [
     path('', include(router.urls)),
