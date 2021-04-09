@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
 from rest_framework import permissions
 from rest_framework.permissions import AllowAny
+from rest_framework.authtoken.admin import User
 
 from poll.pollApp.models import Poll, Question, Answer, UsersAnswers
 from poll.pollApp.serializers import PollSerializer, QuestionSerializer, AnswerSerializer, UserSerializer, \
@@ -14,8 +14,10 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = RegisteredUserSerializer
     permission_classes = [AllowAny]
 
+
 class PollViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
+
     queryset = Poll.objects.all()
     serializer_class = PollSerializer
 
@@ -43,5 +45,6 @@ class UsersAnswersViewSet(viewsets.ModelViewSet):
 
 
 class RegistrationViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
