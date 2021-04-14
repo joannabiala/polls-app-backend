@@ -6,19 +6,19 @@ from django.db.models.signals import post_save
 
 
 class Poll(models.Model):
-    poll_name = models.TextField()
-    poll_description = models.TextField()
-    owner = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    poll_name = models.CharField(max_length=100, null=False, blank=False)
+    poll_description = models.CharField(max_length=100, null=False, blank=False)
+    owner = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='poll')
+
+
+class Question(models.Model):
+    question_description = models.CharField(max_length=200, null=False, blank=False)
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name="question")
 
 
 class UsersAnswers(models.Model):
     answer_date = models.DateTimeField()
     user_answers = models.TextField()
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
-
-
-class Question(models.Model):
-    question_description = models.TextField()
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
 
 

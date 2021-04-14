@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from poll.pollApp.models import Poll, UsersAnswers
+from poll.pollApp.models import Poll, UsersAnswers, Question
 
 
 class RegisteredUserSerializer(serializers.ModelSerializer):
@@ -32,16 +32,19 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         return user
 
 
-class PollSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Poll
-        fields = ['id', 'poll_name', 'poll_description']
-
-
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
+        model = Question
+        fields = ['id', 'question_description', 'poll']
+
+
+class PollSerializer(serializers.ModelSerializer):
+    question = QuestionSerializer(many=True, required=False)
+
+    class Meta:
         model = Poll
-        fields = ['id', 'question_description']
+        fields = ['id', 'poll_name', 'poll_description', 'question']
+        read_only_fields = ['question']
 
 
 class AnswerSerializer(serializers.ModelSerializer):
