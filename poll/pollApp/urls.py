@@ -7,7 +7,7 @@ router = routers.DefaultRouter()
 router.register(r'user', views.UserViewSet, basename="user")
 router.register(r'poll', views.PollViewSet, basename="tasks")
 router.register(r'question', views.QuestionViewSet, basename="list")
-router.register(r'answer', views.AnswerViewSet, basename='registration')
+router.register(r'answer', views.AnswerViewSet, basename='answer')
 router.register(r'usersanswers', views.UsersAnswersViewSet, basename='usersanswers')
 router.register(r'registration', views.RegistrationViewSet, basename='registration')
 
