@@ -13,7 +13,7 @@ class Poll(models.Model):
 
 class Question(models.Model):
     question_description = models.CharField(max_length=200, null=False, blank=False)
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name="question")
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name="questions")
 
 
 class UsersAnswers(models.Model):
