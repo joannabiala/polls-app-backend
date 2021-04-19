@@ -32,10 +32,25 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         return user
 
 
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = ['id', 'answer_description']
+
+
 class QuestionSerializer(serializers.ModelSerializer):
+    answers = AnswerSerializer(many=True)
+
     class Meta:
         model = Question
-        fields = ['id', 'question_description']
+        fields = ['id', 'question_description', 'answers']
+
+    def create(self, validated_data):
+        answers_data = validated_data.pop('answers')
+        question = Question.objects.create(**validated_data)
+        for answer_data in answers_data:
+            Answer.objects.create(question=question, **answer_data)
+        return question
 
 
 class PollSerializer(serializers.ModelSerializer):
@@ -49,14 +64,10 @@ class PollSerializer(serializers.ModelSerializer):
         questions_data = validated_data.pop('questions')
         poll = Poll.objects.create(**validated_data)
         for question_data in questions_data:
-            Question.objects.create(poll=poll, **question_data)
+            question_serializer = QuestionSerializer(data=question_data)
+            question_serializer.is_valid()
+            question_serializer.save(poll=poll)
         return poll
-
-
-class AnswerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Answer
-        fields = ['id', 'answer_description', 'question']
 
 
 class UsersAnswersSerializer(serializers.ModelSerializer):

@@ -24,7 +24,7 @@ class UsersAnswers(models.Model):
 
 class Answer(models.Model):
     answer_description = models.TextField()
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answer")
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answers")
 
 
 @receiver(post_save, sender=User)
