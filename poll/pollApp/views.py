@@ -1,3 +1,4 @@
+from requests import Response
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
 from rest_framework import permissions
@@ -27,6 +28,16 @@ class PollViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         owner_queryset = self.queryset.filter(owner=self.request.user)
         return owner_queryset
+
+        # def retrieve(self, request, *args, **kwargs):
+        #     instance = self.get_object()
+        #     serializer = self.get_serializer(instance)
+        #     return Response(serializer.data)
+
+
+class AllPollsViewSet(viewsets.ModelViewSet):
+    queryset = Poll.objects.all()
+    serializer_class = PollSerializer
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
